@@ -22,5 +22,9 @@
 	{
 		"ParameterKey": "PrivateSubnet2Cidr",
 		"ParameterValue": "10.0.4.0/24"
+	},
+	{
+		"ParameterKey": "ServerImageID",
+		"ParameterValue": "ami-0729e439b6769d6ab"
 	}
 ]

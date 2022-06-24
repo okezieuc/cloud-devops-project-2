@@ -17,6 +17,9 @@ Parameters:
   PrivateSubnet2Cidr:
     Description: The IP range of our VPC
     Type: String
+  ServerImageID:
+    Description: The ID of the AMI that our template will be based upon
+    Type: String
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -145,3 +148,34 @@ Resources:
           IpProtocol: tcp
           ToPort: 80
       VpcId: !Ref VPC
+
+  ServerLaunchConfiguration:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      AssociatePublicIpAddress: false
+      ImageId: !Ref ServerImageID
+      InstanceType: t2.medium
+      SecurityGroups:
+        - Ref: "ServerSecurityGroup"
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          apt-get update -y
+          apt-get install apache2 -y
+          systemctl start apache2.service
+          cd /var/www/html
+          echo "Udacity Demo Web Server Up and Running!" > index.html
+
+  # Auto-scaling group for our servers
+  ServerAutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: Udacity Project 2 Auto Scaling Group
+      DesiredCapacity: 2
+      HealthCheckGracePeriod: 20
+      LaunchConfigurationName: !Ref ServerLaunchConfiguration
+      MaxSize: 2
+      MinSize: 2
+      VPCZoneIdentifier:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
