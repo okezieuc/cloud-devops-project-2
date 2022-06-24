@@ -112,3 +112,17 @@ Resources:
     Properties:
       RouteTableId: !Ref PrivateSubnetRoutingTable
       SubnetId: !Ref PrivateSubnet2
+
+  # Subnet Routes
+  PublicSubnetRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref IGW
+      RouteTableId: !Ref PublicSubnetRoutingTable
+  PrivateSubnetRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NAT
+      RouteTableId: !Ref PrivateSubnetRoutingTable
