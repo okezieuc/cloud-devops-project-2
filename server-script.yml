@@ -5,6 +5,18 @@ Parameters:
   VPCCIDR:
     Description: The IP range of our VPC
     Type: String
+  PublicSubnet1Cidr:
+    Description: The IP range of our VPC
+    Type: String
+  PublicSubnet2Cidr:
+    Description: The IP range of our VPC
+    Type: String
+  PrivateSubnet1Cidr:
+    Description: The IP range of our VPC
+    Type: String
+  PrivateSubnet2Cidr:
+    Description: The IP range of our VPC
+    Type: String
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -14,3 +26,34 @@ Resources:
       Tags:
         - Key: Parent
           Value: EnvironmentName
+  
+  # Public Subnets
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      # The IPv4 CIDR block assigned to the subnet.
+      CidrBlock: !Ref PublicSubnet1Cidr
+      # Indicates whether instances launched in this subnet receive a public IPv4 address.
+      MapPublicIpOnLaunch: true
+      # The ID of the VPC the subnet is in.
+      VpcId: !Ref VPC
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: !Ref PublicSubnet2Cidr
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VPC
+
+  # Private Subnets
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: !Ref PrivateSubnet1Cidr
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: !Ref PrivateSubnet2Cidr
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
