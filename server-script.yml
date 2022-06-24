@@ -78,3 +78,13 @@ Resources:
       SubnetId: !Ref PublicSubnet1
   EIP:
     Type: AWS::EC2::EIP
+
+  # Routing tables
+  PublicSubnetRoutingTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+  PrivateSubnetRoutingTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
