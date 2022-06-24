@@ -1,0 +1,16 @@
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource types
+    Type: String
+  VPCCIDR:
+    Description: The IP range of our VPC
+    Type: String
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VPCCIDR
+      EnableDnsHostnames: false
+      Tags:
+        - Key: Parent
+          Value: EnvironmentName
