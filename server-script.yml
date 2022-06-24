@@ -26,7 +26,7 @@ Resources:
       Tags:
         - Key: Parent
           Value: EnvironmentName
-  
+
   # Public Subnets
   PublicSubnet1:
     Type: AWS::EC2::Subnet
@@ -57,3 +57,24 @@ Resources:
       CidrBlock: !Ref PrivateSubnet2Cidr
       MapPublicIpOnLaunch: false
       VpcId: !Ref VPC
+
+  # Internet Gateway
+  IGW:
+    Type: AWS::EC2::InternetGateway
+  IGWAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref IGW
+      VpcId: !Ref VPC
+
+  # NAT Gatway
+  NAT:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - EIP
+          - AllocationId
+      SubnetId: !Ref PublicSubnet1
+  EIP:
+    Type: AWS::EC2::EIP
