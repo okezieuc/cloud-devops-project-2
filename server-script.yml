@@ -100,3 +100,15 @@ Resources:
     Properties:
       RouteTableId: !Ref PublicSubnetRoutingTable
       SubnetId: !Ref PublicSubnet2
+
+  # Private-SubnetRouteTableAssociations
+  PrivateSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateSubnetRoutingTable
+      SubnetId: !Ref PrivateSubnet1
+  PrivateSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateSubnetRoutingTable
+      SubnetId: !Ref PrivateSubnet2
