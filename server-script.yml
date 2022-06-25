@@ -249,3 +249,11 @@ Resources:
           Values: [/]
       ListenerArn: !Ref Listener
       Priority: 1
+
+Outputs:
+  LoadBalancerURL:
+    Description: A URL to our load balancer
+    # Value: !GetAtt WebAppLoadBalancer.DNSName
+    Value: !Join ["", ["http://", !GetAtt WebAppLoadBalancer.DNSName]]
+    Export:
+      Name: Loadbalancer-URL
