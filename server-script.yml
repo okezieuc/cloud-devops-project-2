@@ -183,6 +183,8 @@ Resources:
       VPCZoneIdentifier:
         - !Ref PrivateSubnet1
         - !Ref PrivateSubnet2
+      TargetGroupARNs:
+        - Ref: WebAppTargetGroup
 
   # Security group for our load balancer
   LoadBalancerSecurityGroup:
@@ -210,3 +212,16 @@ Resources:
         - Ref: PublicSubnet2
       SecurityGroups:
         - Ref: LoadBalancerSecurityGroup
+
+  WebAppTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckIntervalSeconds: 10
+      HealthCheckPath: /
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 8
+      HealthyThresholdCount: 2
+      Port: 80
+      Protocol: HTTP
+      UnhealthyThresholdCount: 5
+      VpcId: !Ref VPC
